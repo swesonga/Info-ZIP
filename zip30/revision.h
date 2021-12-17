@@ -21,8 +21,8 @@
 #define Z_PATCHLEVEL 0
 #define Z_BETALEVEL "i BETA"
 
-#define VERSION "3.0"
-#define REVDATE "July 5th 2008"
+#define VERSION "3.0-ioERes"
+#define REVDATE "2021-12-17.01"
 
 #define DW_MAJORVER    Z_MAJORVER
 #define DW_MINORVER    Z_MINORVER
@@ -58,7 +58,7 @@ ZCONST char *copyright[] = {
 };
 
 ZCONST char * far versinfolines[] = {
-"This is %s %s (%s), by Info-ZIP.",
+"This is %s %s (%s), by Info-ZIP with changes by Saint Wesonga.",
 "Currently maintained by E. Gordon.  Please send bug reports to",
 "the authors using the web page at www.info-zip.org; see README for details.",
 "",
