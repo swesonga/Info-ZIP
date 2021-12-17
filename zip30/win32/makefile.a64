@@ -30,7 +30,7 @@ ASFLAGS= /c /Zi /DINFOZIP
 # by passing the -stub switch to the 32-bit linker to specify the 16-bit part.
 
 LD=link -nologo
-LDFLAGS=advapi32.lib
+LDFLAGS=advapi32.lib user32.lib
 
 # variables
 OBJZ = zip.obj crypt.obj ttyio.obj zipfile.obj zipup.obj fileio.obj util.obj \
