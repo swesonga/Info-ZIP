@@ -92,7 +92,7 @@ RC=rc
 # by passing the -stub switch to the 32-bit linker to specify the 16-bit part.
 
 LD=link -nologo
-LDFLAGS=user32.lib advapi32.lib /OPT:NOWIN98 /INCREMENTAL:NO /PDB:$*.pdb $(EXTLIB)
+LDFLAGS=user32.lib advapi32.lib /INCREMENTAL:NO /PDB:$*.pdb $(EXTLIB)
 SYMS=/DEBUG:full /DEBUGTYPE:CV
 !IFDEF debug
 LDFLAGS=$(LDFLAGS) $(SYMS)
