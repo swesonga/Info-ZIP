@@ -1217,7 +1217,7 @@ local unsigned file_read(buf, size)
 #endif /* EBCDIC */
       {
          do {
-            if ((*buf++ = *b++) == '\n') *(buf-1) = CR, *buf++ = LF, len++;
+            if ((*buf++ = *b++) == '\n') *(buf-1) = CARRIAGE_RETURN, *buf++ = LF, len++;
          } while (--size != 0);
       }
       buf -= len;
@@ -1257,7 +1257,7 @@ local unsigned file_read(buf, size)
 #endif /* EBCDIC */
       {
          do {
-            if (( *buf++ = *b++) == CR && *b == LF) buf--, len--;
+            if (( *buf++ = *b++) == CARRIAGE_RETURN && *b == LF) buf--, len--;
          } while (--size != 0);
       }
       if (len == 0) {
