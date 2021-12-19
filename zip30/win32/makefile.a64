@@ -30,18 +30,18 @@ ASFLAGS= /c /Zi /DINFOZIP
 # by passing the -stub switch to the 32-bit linker to specify the 16-bit part.
 
 LD=link -nologo
-LDFLAGS=advapi32.lib
+LDFLAGS=advapi32.lib user32.lib
 
 # variables
 OBJZ = zip.obj crypt.obj ttyio.obj zipfile.obj zipup.obj fileio.obj util.obj \
-    crc32.obj globals.obj
+    crc32.obj globals.obj win32i64.obj
 
 OBJI = deflate.obj trees.obj $(ASMOBJS) win32.obj win32zip.obj nt.obj
 
-OBJU = zipfile_.obj fileio_.obj util_.obj globals.obj win32_.obj
-OBJN = zipnote.obj $(OBJU)
+OBJU = zipfile_.obj fileio_.obj util_.obj globals.obj win32_.obj win32i64.obj
+OBJN = zipnote.obj $(OBJU) crc32.obj
 OBJC = zipcloak.obj crc32_.obj crypt_.obj ttyio.obj $(OBJU)
-OBJS = zipsplit.obj $(OBJU)
+OBJS = zipsplit.obj $(OBJU) crc32.obj
 
 ZIP_H = zip.h ziperr.h tailor.h win32/osdep.h
 
@@ -81,6 +81,9 @@ crypt.obj:      crypt.c $(ZIP_H) crypt.h crc32.h ttyio.h
 
 ttyio.obj:      ttyio.c $(ZIP_H) crypt.h ttyio.h
     $(CC) -c $(CFLAGS) $*.c
+
+win32i64.obj:   win32/win32i64.c $(ZIP_H)
+ $(CC) -c $(CFLAGS) -I. win32/win32i64.c
 
 win32zip.obj:   win32/win32zip.c $(ZIP_H) win32/win32zip.h win32/nt.h
     $(CC) -c $(CFLAGS) -I. win32/win32zip.c
