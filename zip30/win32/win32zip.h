@@ -30,10 +30,6 @@ void ChangeNameForFAT(char *name);
 
 char *getVolumeLabel(int drive, ulg *vtime, ulg *vmode, time_t *vutim);
 
-#if 0 /* never used ?? */
-char *StringLower(char *);
-#endif
-
 char *GetLongPathEA(char *name);
 #ifdef UNICODE_SUPPORT
 wchar_t *GetLongPathEAW(wchar_t *name);

@@ -248,14 +248,6 @@ int percent(n, m)
 {
   zoff_t p;
 
-#if 0
-  if (n > 0xffffffL)            /* If n >= 16M */
-  {                             /*  then divide n and m by 256 */
-    n += 0x80;  n >>= 8;
-    m += 0x80;  m >>= 8;
-  }
-  return n > m ? (int)(1 + (200 * (n - m)/n)) / 2 : 0;
-#endif
 
 /* 2004-12-01 SMS.
  * Changed to do big-n test only for small zoff_t.
@@ -999,16 +991,7 @@ struct zlist far *z;    /* zip entry to compress */
                 zip_fzofft(s, NULL, NULL), zip_fzofft(bytes_this_entry, NULL, NULL));
         error("incorrect compressed size");
       }
-#if 0
-       /* seek ok, ftell() should work, check compressed size */
-# if !defined(VMS) && !defined(CMS_MVS)
-      if (p - o != s) {
-        fprintf(mesg, " s=%s, actual=%s ",
-                zip_fzofft(s, NULL, NULL), zip_fzofft(p-o, NULL, NULL));
-        error("incorrect compressed size");
-      }
-# endif /* !VMS && !CMS_MVS */
-#endif /* 0 */
+
       z->how = (ush)m;
       switch (m)
       {

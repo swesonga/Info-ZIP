@@ -48,16 +48,7 @@ struct stat {
 #define S_IFDIR  (1<<11)
 #define S_IFREG  (1<<10)
 
-#if 0
-   /* these values here are totally random: */
-#  define S_IFLNK  (1<<14)
-#  define S_IFSOCK (1<<13)
-#  define S_IFCHR  (1<<8)
-#  define S_IFIFO  (1<<7)
-#  define S_IFMT   (S_IFDIR|S_IFREG|S_IFCHR|S_IFLNK)
-#else
-#  define S_IFMT   (S_IFDIR|S_IFREG)
-#endif
+#define S_IFMT   (S_IFDIR|S_IFREG)
 
 #define S_IHIDDEN    (1<<7)
 #define S_ISCRIPT    (1<<6)

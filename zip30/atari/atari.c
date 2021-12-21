@@ -248,18 +248,6 @@ static int ftwfunc( struct stat *stats, int ftw_status )
       return 0;
    case FTW_F:
       if (!is_w || regexec(regptr, path, 1)) {
-#if 0
-         char fn[FILENAME_MAX];
-         int  k;
-         if (S_ISLNK(stats->st_mode) &&
-             (k = readlink(path, fn, FILENAME_MAX)) > 0) {
-            int l = strlen(path);
-            fn[k] = '\0';
-            strcat(strcat(path, " -> "), fn);
-            ret = newname(path, 0, 0); /* procname(path, 0); */
-            path[l] = '\0';
-         } else
-#endif
             ret = newname(path, 0, 0); /* procname(path, 0); */
       }
       return 0;
@@ -473,10 +461,7 @@ int *pdosflag;          /* output: force MSDOS file attributes? */
   if ((n = malloc(strlen(t) + 1)) == NULL)
     return NULL;
   strcpy(n, t);
-#if 0
-  if (p = strstr(t, " -> "))       /* shorten "link -> data" to "link" */
-    *p = '\0';
-#endif
+
   if (dosify)
     msname(n);
 

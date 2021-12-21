@@ -269,25 +269,6 @@ char * Unix2ql (char *qlname, char **dot)
     return path;
 }
 
-#if 0                                 /* Not used in ZIP */
-
-GuessAltName(char *name, char *dot)
-{
-    if(dot)
-    {
-        *dot = '.';
-    }
-    else
-    {
-        if((dot = strrchr(name, '_')))
-        {
-            *dot = '.';
-        }
-    }
-}
-
-#endif /* 0 */
-
 short devlen(char *p)
 {
     char defpath[40];

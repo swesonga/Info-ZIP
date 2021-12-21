@@ -536,18 +536,12 @@ char *d;                /* directory to delete */
 void version_local()
 {
     static ZCONST char CompiledWith[] = "Compiled with %s%s for %s%s%s%s.\n\n";
-#if 0
-    char buf[40];
-#endif
 
     printf(CompiledWith,
 
 #ifdef __GNUC__
       "gcc ", __VERSION__,
 #else
-#  if 0
-      "cc ", (sprintf(buf, " version %d", _RELEASE), buf),
-#  else
 #  ifdef __COMPILER_KCC__
       "KCC", "",
 #  else

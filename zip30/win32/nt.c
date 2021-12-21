@@ -63,9 +63,6 @@ Author:
 /* private prototypes */
 
 static BOOL Initialize(VOID);
-#if 0   /* currently unused */
-static BOOL Shutdown(VOID);
-#endif
 static VOID GetRemotePrivilegesGet(CHAR *FileName, PDWORD dwRemotePrivileges);
 static VOID InitLocalPrivileges(VOID);
 
@@ -134,18 +131,6 @@ static BOOL Initialize(VOID)
 
     return TRUE;
 }
-
-#if 0   /* currently not used ! */
-static BOOL Shutdown(VOID)
-{
-    /* really need to free critical sections, disable enabled privilges, etc,
-       but doing so brings up possibility of race conditions if those resources
-       are about to be used.  The easiest way to handle this is let these
-       resources be freed when the process terminates... */
-
-    return TRUE;
-}
-#endif /* never */
 
 
 static VOID GetRemotePrivilegesGet(char *FileName, PDWORD dwRemotePrivileges)

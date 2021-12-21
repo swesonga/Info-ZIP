@@ -174,11 +174,6 @@ int   EXPENTRY ZpArchive(ZCL C, LPZPOPT Opts);
 
 
 
-/* Functions not yet supported */
-#if 0
-int      EXPENTRY ZpMain            (int argc, char **argv);
-int      EXPENTRY ZpAltMain         (int argc, char **argv, ZpInit *init);
-#endif
 #endif /* WINDLL? || API? */
 
 #endif /* _ZIPAPI_H */

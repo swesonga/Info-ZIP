@@ -7,16 +7,6 @@
   also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
 */
 
-/* 2004-12-13 SMS.
- * Disabled the module name macro to accommodate old GNU C which didn't
- * obey the directive, and thus confused MMS/MMK where the object
- * library dependencies need to have the correct module name.
- */
-#if 0
-# define module_name     VMSMUNCH
-# define module_version  "V1.3-4"
-#endif /* 0 */
-
 /*
  *  Modified by:
  *
@@ -104,20 +94,6 @@
      I do not demand this condition..
 
   ---------------------------------------------------------------------------*/
-
-
-/* 2004-12-13 SMS.
- * Disabled the module name macro to accommodate old GNU C which didn't
- * obey the directive, and thus confused MMS/MMK where the object
- * library dependencies need to have the correct module name.
- */
-#if 0
-# if defined(__DECC) || defined(__GNUC__)
-#  pragma module module_name module_version
-# else
-#  module module_name module_version
-# endif
-#endif /* 0 */
 
 /*****************************/
 /*  Includes, Defines, etc.  */

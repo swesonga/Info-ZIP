@@ -24,9 +24,6 @@
 void version_local()
 {
     static ZCONST char CompiledWith[] = "Compiled with %s%s for %s%s%s%s.\n\n";
-#if 0
-    char buf[40];
-#endif
 
     printf(CompiledWith,
 

@@ -456,9 +456,6 @@ unsigned zfwrite(buf, item_size, nb)
     zvoid *buf;                 /* data buffer */
     extent item_size;           /* size of each item in bytes */
     extent nb;                  /* number of items */
-#if 0
-    FILE *f;                    /* file to write to */
-#endif
 {
     int t;                      /* temporary */
 

@@ -70,9 +70,6 @@ local int utf8_to_ucs4_string OF((ZCONST char *utf8, ulg *usc4buf,
                                   int buflen));
 local int ucs4_string_to_utf8 OF((ZCONST ulg *ucs4, char *utf8buf,
                                   int buflen));
-#if 0
-  local int utf8_chars OF((ZCONST char *utf8));
-#endif
 #endif /* UNICODE_SUPPORT */
 
 #ifndef UTIL    /* the companion #endif is a bit of ways down ... */
@@ -93,11 +90,6 @@ local int zipstate = -1;
 int zipstate;
 #endif
 /* -1 unknown, 0 old zip file exists, 1 new zip file */
-
-#if 0
-char *getnam(n, fp)
-char *n;                /* where to put name (must have >=FNMAX+1 bytes) */
-#endif
 
 /* converted to return string pointer from malloc to avoid
    size limitation - 11/8/04 EG */
@@ -3023,19 +3015,6 @@ local int ucs4_string_to_utf8(ucs4, utf8buf, buflen)
 }
 
 
-#if 0  /* currently unused */
-/* utf8_chars
- *
- * Wrapper: counts the actual unicode characters in a UTF-8 string.
- */
-local int utf8_chars(utf8)
-  ZCONST char *utf8;
-{
-  return utf8_to_ucs4_string(utf8, NULL, 0);
-}
-#endif
-
-
 /* --------------------------------------------------- */
 /* Unicode Support
  *
@@ -3185,65 +3164,6 @@ char *wide_char_to_escape_string(wide_char)
   }
   return r;
 }
-
-#if 0
-/* returns the wide character represented by the escape string */
-zwchar escape_string_to_wide(escape_string)
-  char *escape_string;
-{
-  int i;
-  zwchar w;
-  char c;
-  char u;
-  int len;
-  char *e = escape_string;
-
-  if (e == NULL) {
-    return 0;
-  }
-  if (e[0] != '#') {
-    /* no leading # */
-    return 0;
-  }
-  len = strlen(e);
-  /* either #U1234 or #L123456 format */
-  if (len != 6 && len != 8) {
-    return 0;
-  }
-  w = 0;
-  if (e[1] == 'L') {
-    if (len != 8) {
-      return 0;
-    }
-    /* 3 bytes */
-    for (i = 2; i < 8; i++) {
-      c = e[i];
-      u = toupper(c);
-      if (u >= 'A' && u <= 'F') {
-        w = w * 0x10 + (zwchar)(u + 10 - 'A');
-      } else if (c >= '0' && c <= '9') {
-        w = w * 0x10 + (zwchar)(c - '0');
-      } else {
-        return 0;
-      }
-    }
-  } else if (e[1] == 'U') {
-    /* 2 bytes */
-    for (i = 2; i < 6; i++) {
-      c = e[i];
-      u = toupper(c);
-      if (u >= 'A' && u <= 'F') {
-        w = w * 0x10 + (zwchar)(u + 10 - 'A');
-      } else if (c >= '0' && c <= '9') {
-        w = w * 0x10 + (zwchar)(c - '0');
-      } else {
-        return 0;
-      }
-    }
-  }
-  return w;
-}
-#endif
 
 
 char *local_to_escape_string(local_string)
@@ -3518,26 +3438,6 @@ zwchar *local_to_wide_string(local_string)
 #endif /* !WIN32 */
 
 
-#if 0
-/* All wchar functions are only used by Windows and are
-   now in win32zip.c so that the Windows functions can
-   be used and multiple character wide characters can
-   be handled easily. */
-# ifndef WIN32
-char *wchar_to_utf8_string(wstring)
-  wchar_t *wstring;
-{
-  zwchar *wide_string = wchar_to_wide_string(wstring);
-  char *local_string = wide_to_utf8_string(wide_string);
-
-  free(wide_string);
-
-  return local_string;
-}
-# endif
-#endif
-
-
 /* convert wide string to UTF-8 */
 char *wide_to_utf8_string(wide_string)
   zwchar *wide_string;
@@ -3644,46 +3544,6 @@ zwchar *utf8_to_wide_string(utf8_string)
     cl = mblen(ptr, MB_CUR_MAX);
     return (cl > 0) ? cl : 1;
   }
-#endif
-
-
-  /* moved to zip.h */
-#if 0
-#ifdef UNICODE_SUPPORT
-# define MB_CLEN(ptr) (1)
-# define MB_NEXTCHAR(ptr) ((ptr)++)
-# ifdef MULTIBYTE_GETOPTNS
-#    undef MULTIBYTE_GETOPTNS
-# endif
-#else
-# ifdef _MBCS
-#  ifndef MULTIBYTE_GETOPTNS
-#    define MULTIBYTE_GETOPTNS
-#  endif
-# endif
-/* multibyte character set support
-   Multibyte characters use typically two or more sequential bytes
-   to represent additional characters than can fit in a single byte
-   character set.  The code used here is based on the ANSI mblen function. */
-#  ifdef MULTIBYTE_GETOPTNS
-  local int mb_clen OF((ZCONST char *));  /* declare proto first */
-  local int mb_clen(ptr)
-    ZCONST char *ptr;
-  {
-    /* return the number of bytes that the char pointed to is.  Return 1 if
-       null character or error like not start of valid multibyte character. */
-    int cl;
-
-    cl = mblen(ptr, MB_CUR_MAX);
-    return (cl > 0) ? cl : 1;
-  }
-#  define MB_CLEN(ptr) mb_clen(ptr)
-#  define MB_NEXTCHAR(ptr) ((ptr) += MB_CLEN(ptr))
-# else
-#  define MB_CLEN(ptr) (1)
-#  define MB_NEXTCHAR(ptr) ((ptr)++)
-# endif
-#endif
 #endif
 
 
@@ -4859,17 +4719,6 @@ unsigned long get_option(pargs, argc, argnum, optchar, value,
           break;
         }
       }
-
-#if 0
-    /* argument file code left out
-       so for now let filenames start with @
-    */
-
-    } else if (allow_arg_files && arg[0] == '@') {
-      /* arg file */
-      oERR(ZE_PARMS, no_arg_files_err);
-#endif
-
     } else {
       /* non-option */
       if (enable_permute) {

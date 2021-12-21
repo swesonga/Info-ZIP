@@ -2151,12 +2151,7 @@ char **argv;            /* command line tokens */
   FILE *x /*, *y */;    /* input and output zip files (y global) */
   struct zlist far *z;  /* steps through zfiles linked list */
   int bad_open_is_error = 0; /* if read fails, 0=warning, 1=error */
-#if 0
-  /* does not seem used */
-#ifdef WINDLL
-  int retcode;          /* return code for dll */
-#endif /* WINDLL */
-#endif
+
 #if (!defined(VMS) && !defined(CMS_MVS))
   char *zipbuf;         /* stdio buffer for the zip file */
 #endif /* !VMS && !CMS_MVS */
@@ -4934,17 +4929,6 @@ char **argv;            /* command line tokens */
     use_descriptors = 1;
   }
 
-  /* Not needed.  Only need Zip64 when input file is larger than 2 GB or reading
-     stdin and writing stdout.  This is set in putlocal() for each file. */
-#if 0
-  /* If using descriptors and Zip64 enabled force Zip64 3/13/05 EG */
-# ifdef ZIP64_SUPPORT
-  if (use_descriptors && force_zip64 != 0) {
-    force_zip64 = 1;
-  }
-# endif
-#endif
-
   /* if archive exists, not streaming and not deleting or growing, copy
      any bytes at beginning */
   if (strcmp(zipfile, "-") != 0 && !d)  /* this must go *after* set[v]buf */
@@ -5475,22 +5459,6 @@ char **argv;            /* command line tokens */
     z->uname = NULL;          /* UTF-8 name for extra field */
     z->zuname = NULL;         /* externalized UTF-8 name for matching */
     z->ouname = NULL;         /* display version of UTF-8 name with OEM */
-
-#if 0
-    /* New AppNote bit 11 allowing storing UTF-8 in path */
-    if (utf8_force && f->uname) {
-      if (f->iname)
-        free(f->iname);
-      if ((f->iname = malloc(strlen(f->uname) + 1)) == NULL)
-        ZIPERR(ZE_MEM, "Unicode bit 11");
-      strcpy(f->iname, f->uname);
-# ifdef WIN32
-      if (f->inamew)
-        free(f->inamew);
-      f->inamew = utf8_to_wchar_string(f->iname);
-# endif
-    }
-#endif
 
     /* Only set z->uname if have a non-ASCII Unicode name */
     /* The Unicode path extra field is created if z->uname is not NULL,
