@@ -315,10 +315,6 @@ int main(argc, argv)
     int temp_path;              /* 1 if next argument is path for temp files */
     char passwd[IZ_PWLEN+1];    /* password for encryption or decryption */
     char verify[IZ_PWLEN+1];    /* password for encryption or decryption */
-#if 0
-    char *q;                    /* steps through option arguments */
-    int r;                      /* arg counter */
-#endif
     int res;                    /* result code */
     zoff_t length;              /* length of central directory */
     FILE *inzip, *outzip;       /* input and output zip files */
@@ -413,51 +409,6 @@ int main(argc, argv)
     signal(SIGSEGV, handler);
 #endif
     temp_path = decrypt = 0;
-#if 0
-    /* old command line */
-    for (r = 1; r < argc; r++) {
-        if (*argv[r] == '-') {
-            if (!argv[r][1]) ziperr(ZE_PARMS, "zip file cannot be stdin");
-            for (q = argv[r]+1; *q; q++) {
-                switch (*q) {
-                case 'b':   /* Specify path for temporary file */
-                    if (temp_path) {
-                        ziperr(ZE_PARMS, "use -b before zip file name");
-                    }
-                    temp_path = 1;          /* Next non-option is path */
-                    break;
-                case 'd':
-                    decrypt = 1;  break;
-                case 'h':   /* Show help */
-                    help();
-                    EXIT(ZE_OK);
-                case 'l': case 'L':  /* Show copyright and disclaimer */
-                    license();
-                    EXIT(ZE_OK);
-                case 'q':   /* Quiet operation, suppress info messages */
-                    noisy = 0;  break;
-                case 'v':   /* Show version info */
-                    version_info();
-                    EXIT(ZE_OK);
-                default:
-                    ziperr(ZE_PARMS, "unknown option");
-                } /* switch */
-            } /* for */
-
-        } else if (temp_path == 0) {
-            if (zipfile != NULL) {
-                ziperr(ZE_PARMS, "can only specify one zip file");
-
-            } else if ((zipfile = ziptyp(argv[r])) == NULL) {
-                ziperr(ZE_MEM, "was processing arguments");
-            }
-        } else {
-            tempath = argv[r];
-            temp_path = 0;
-        } /* if */
-    } /* for */
-
-#else
 
     /* new command line */
 
@@ -544,8 +495,6 @@ int main(argc, argv)
     }
 
     free_args(args);
-
-#endif
 
     if (zipfile == NULL) ziperr(ZE_PARMS, "need to specify zip file");
 

@@ -93,15 +93,6 @@
 /* end defines for ZIP */
 
 
-
-#if 0  /*$RGH$*/
-/* RECFM=F, LRECL=1 works for sure */
-#define FOPR "rb,recfm=fb"
-#define FOPM "r+"
-#define FOPW "wb,recfm=fb,lrecl=1"
-#define FOPWT "w"
-#endif
-
 /* Try allowing ZIP files to be RECFM=V with "byteseek" for CMS, recfm=U for MVS */
 #define FOPR "rb,byteseek"
 #define FOPM "r+,byteseek"
@@ -111,11 +102,7 @@
   #define FOPW "wb,recfm=v,lrecl=32760,byteseek"
 #endif /* MVS */
 
-#if 0
-#define FOPW_TMP "w,byteseek"
-#else
 #define FOPW_TMP "w,type=memory(hiperspace)"
-#endif
 
 #define CBSZ 0x40000
 #define ZBSZ 0x40000

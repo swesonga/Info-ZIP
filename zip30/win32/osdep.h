@@ -189,23 +189,6 @@
 
 #endif
 
-#if 0
-# ifndef ZOFF_T_FORMAT_SIZE_PREFIX
-    /* unsupported WIN32 */
-
-    /* base types for file offsets and file sizes */
-    typedef long long           zoff_t;
-    typedef unsigned long long  uzoff_t;
-
-    /* 64-bit stat struct */
-    typedef struct stat z_stat;
-
-    /* printf format size prefix for zoff_t values */
-#   define ZOFF_T_FORMAT_SIZE_PREFIX "ll"
-# endif
-#endif
-
-
 /* Automatically set ZIP64_SUPPORT if supported */
 
 /* MS C and VC */
@@ -244,23 +227,6 @@
 #   endif
 # endif
 #endif
-
-#if 0
-  /* this is now generic */
-# ifdef UNICODE_SUPPORT
-  /* Set up Unicode support - 9/27/05 EG */
-
-  /* type of wide string characters */
-#  define zchar wchar_t
-
-  /* default char string used if a wide char can't be converted */
-#  define zchar_default "_"
-
-# else
-#  define zchar char
-# endif
-#endif
-
 
 /* File operations--use "b" for binary if allowed or fixed length 512 on VMS
  *                  use "S" for sequential access on NT to prevent the NT

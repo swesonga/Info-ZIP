@@ -964,49 +964,6 @@ void version_local()
 } /* end function version_local() */
 #endif /* !WINDLL */
 
-
-#if 0 /* inserted here for future use (clearing of archive bits) */
-#if (defined(__GO32__) && (!defined(__DJGPP__) || (__DJGPP__ < 2)))
-
-#include <errno.h>
-int volatile _doserrno;
-
-unsigned _dos_setfileattr(char *name, unsigned attr)
-{
-#if 0   /* stripping of trailing '/' is not needed for zip-internal use */
-    unsigned namlen = strlen(name);
-    char *i_name = alloca(namlen + 1);
-
-    strcpy(i_name, name);
-    if (namlen > 1 && i_name[namlen-1] == '/' && i_name[namlen-2] != ':')
-        i_name[namlen-1] = '\0';
-    asm("movl %0, %%edx": : "g" (i_name));
-#else
-    asm("movl %0, %%edx": : "g" (name));
-#endif
-    asm("movl %0, %%ecx": : "g" (attr));
-    asm("movl $0x4301, %eax");
-    asm("int $0x21": : : "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi");
-    _doserrno = 0;
-    asm("jnc 1f");
-    asm("movl %%eax, %0": "=m" (_doserrno));
-    switch (_doserrno) {
-    case 2:
-    case 3:
-           errno = ENOENT;
-           break;
-    case 5:
-           errno = EACCES;
-           break;
-    }
-    asm("1:");
-    return (unsigned)_doserrno;
-}
-
-#endif /* DJGPP v1.x */
-#endif /* never (not yet used) */
-
-
 #if (defined(__DJGPP__) && (__DJGPP__ >= 2))
 
 /* Disable determination of "x" bit in st_mode field for [f]stat() calls. */

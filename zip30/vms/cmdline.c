@@ -24,16 +24,6 @@
 
 */
 
-/* 2004-12-13 SMS.
- * Disabled the module name macro to accommodate old GNU C which didn't
- * obey the directive, and thus confused MMS/MMK where the object
- * library dependencies need to have the correct module name.
- */
-#if 0
-# define module_name VMS_ZIP_CMDLINE
-# define module_ident "02-006"
-#endif /* 0 */
-
 /*
 **
 **  Facility:   ZIP
@@ -79,20 +69,6 @@
 **              Original version (for Zip v1.9p1).
 **
 */
-
-
-/* 2004-12-13 SMS.
- * Disabled the module name macro to accommodate old GNU C which didn't
- * obey the directive, and thus confused MMS/MMK where the object
- * library dependencies need to have the correct module name.
- */
-#if 0
-# if defined(__DECC) || defined(__GNUC__)
-#  pragma module module_name module_ident
-# else
-#  module module_name module_ident
-# endif
-#endif /* 0 */
 
 /* Accomodation for /NAMES = AS_IS with old header files. */
 

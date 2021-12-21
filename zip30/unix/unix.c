@@ -665,18 +665,6 @@ int set_extra_field(z, z_utim)
 #endif
   z->cext = EF_C_UNIX_SIZE;
 
-#if 0  /* UID/GID presence is now signaled by central EF_IZUNIX2 field ! */
-  /* lower-middle external-attribute byte (unused until now):
-   *   high bit        => (have GMT mod/acc times) >>> NO LONGER USED! <<<
-   *   second-high bit => have Unix UID/GID info
-   * NOTE: The high bit was NEVER used in any official Info-ZIP release,
-   *       but its future use should be avoided (if possible), since it
-   *       was used as "GMT mod/acc times local extra field" flags in Zip beta
-   *       versions 2.0j up to 2.0v, for about 1.5 years.
-   */
-  z->atx |= 0x4000;
-#endif /* never */
-
   /* new unix extra field */
   set_new_unix_extra_field(z, &s);
 

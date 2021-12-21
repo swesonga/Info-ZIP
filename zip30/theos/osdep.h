@@ -29,11 +29,6 @@ int _isatty(int fd);
 
 #define deletedir(d) rmdir(d)
 
-/* will come later */
-#if 0
-#define USE_EF_UT_TIME          /* Enable use of "UT" extra field time info */
-#endif
-
 #if DEBUG
 int _fprintf(FILE* fp, const char* fmt, ...);
 #endif

@@ -279,17 +279,7 @@ struct plist {
 /* Error return codes and PERR macro */
 #include "ziperr.h"
 
-#if 0            /* Optimization: use the (const) result of crc32(0L,NULL,0) */
-#  define CRCVAL_INITIAL  crc32(0L, (uch *)NULL, 0)
-# if 00 /* not used, should be removed !! */
-#  define ADLERVAL_INITIAL adler16(0U, (uch *)NULL, 0)
-# endif /* 00 */
-#else
-#  define CRCVAL_INITIAL  0L
-# if 00 /* not used, should be removed !! */
-#  define ADLERVAL_INITIAL 1
-# endif /* 00 */
-#endif
+#define CRCVAL_INITIAL  0L
 
 #define DOSTIME_MINIMUM         ((ulg)0x00210000L)
 #define DOSTIME_2038_01_18      ((ulg)0x74320000L)
@@ -951,11 +941,6 @@ void     bi_init      OF((char *, unsigned int, int));
 
   /* convert wide character to escape string */
   char *wide_char_to_escape_string OF((unsigned long));
-
-#if 0
-  /* convert escape string to wide character */
-  unsigned long escape_string_to_wide OF((char *));
-#endif
 
   /* convert local to UTF-8 */
   char *local_to_utf8_string OF ((char *));
