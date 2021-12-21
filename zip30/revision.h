@@ -22,7 +22,7 @@
 #define Z_BETALEVEL "i BETA"
 
 #define VERSION "3.0-ioERes"
-#define REVDATE "2021-12-20.01"
+#define REVDATE "2021-12-21.01"
 
 #define DW_MAJORVER    Z_MAJORVER
 #define DW_MINORVER    Z_MINORVER
