@@ -14,22 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make
-      run: make
-
-  build-windows-32bit:
-
-    runs-on: windows-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: make
-      run: nmake -f win32\makefile.w32
-
-  build-windows-64bit:
-
-    runs-on: windows-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: make
-      run: nmake -f win32\makefile.a64
+      run: make -f unix/Makefile generic
