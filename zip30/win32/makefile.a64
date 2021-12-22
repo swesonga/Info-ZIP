@@ -135,3 +135,7 @@ zipnote.exe: $(OBJN)
 
 zipsplit.exe: $(OBJS)
     $(LD) $(LDFLAGS) $(OBJS)
+
+clean:
+ -del *.obj
+ -del *.exe
