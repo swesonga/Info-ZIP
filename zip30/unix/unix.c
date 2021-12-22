@@ -67,7 +67,6 @@ local char *readd OF((DIR *));
 #ifndef dirent
 #  define dirent direct
 #endif
-typedef FILE DIR;
 /*
 **  Apparently originally by Rich Salz.
 **  Cleaned up and modified by James W. Birdsall.
