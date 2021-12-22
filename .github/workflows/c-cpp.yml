@@ -15,3 +15,27 @@ jobs:
     - uses: actions/checkout@v2
     - name: make
       run: cd zip30; make -f unix/Makefile generic
+
+  build-windows-32bit:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x86
+    - name: make
+      run: cd zip30; nmake -f win32/makefile.w32
+
+  build-windows-64bit:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: amd64
+    - name: make
+      run: cd zip30; nmake -f win32/makefile.a64
