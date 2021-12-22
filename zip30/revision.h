@@ -22,7 +22,7 @@
 #define Z_BETALEVEL "i BETA"
 
 #define VERSION "3.0-ioERes"
-#define REVDATE "2021-12-21.05"
+#define REVDATE "2021-12-21.06"
 
 #define DW_MAJORVER    Z_MAJORVER
 #define DW_MINORVER    Z_MINORVER
@@ -58,11 +58,14 @@ ZCONST char *copyright[] = {
 };
 
 ZCONST char * far versinfolines[] = {
-"This is %s %s (%s), by Info-ZIP with changes by Saint Wesonga.",
-"Currently maintained by E. Gordon.  Please send bug reports to",
-"the authors using the web page at www.info-zip.org; see README for details.",
+"This is %s %s (%s), by Info-ZIP with changes by Saint Wesonga (2021).",
+"This customized version is currently maintained by S. Wesonga.",
+"Please send bug reports to the authors using the web page at",
+"www.info-zip.org; see README for details.",
+"Please report any issues related to this customized tool at",
+"https://github.com/swesonga/Info-ZIP/issues",
 "",
-"Latest sources and executables are at ftp://ftp.info-zip.org/pub/infozip,",
+"Latest sources for this custom Info-ZIP tool are at https://github.com/swesonga/Info-ZIP,",
 "as of above date; see http://www.info-zip.org/ for other sites.",
 ""
 };
