@@ -1087,7 +1087,7 @@ int getch_win32(void)
 
 void version_local()
 {
-    static ZCONST char CompiledWith[] = "Compiled with %s%s for %s%s%s.\n\n";
+    static ZCONST char CompiledWith[] = "Compiled with %s%s for %s%s.\n\n";
 #if (defined(_MSC_VER) || defined(__WATCOMC__) || defined(__DJGPP__))
     char buf[80];
 #if (defined(_MSC_VER) && (_MSC_VER > 900))
@@ -1198,7 +1198,7 @@ void version_local()
 #endif
 
     printf(CompiledWith, COMPILER_NAME1, COMPILER_NAME2,
-           "\nWindows 9x / Windows NT", " (32-bit)", COMPILE_DATE);
+           "\nMicrosoft Windows", COMPILE_DATE);
 
     return;
 
