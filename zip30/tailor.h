@@ -594,6 +594,7 @@ typedef struct ztimbuf {
 #     define zfstat _fstati64
 #     define zlstat lstat
 
+#    ifdef WIN32_CUSTOM_SEEK_TELL
       /* 64-bit fseeko */
       /* function in win32.c */
       int zfseeko OF((FILE *, zoff_t, int));
@@ -601,6 +602,13 @@ typedef struct ztimbuf {
       /* 64-bit ftello */
       /* function in win32.c */
       zoff_t zftello OF((FILE *));
+#    else
+      /* 64-bit fseeko */
+#     define zfseeko fseek
+
+      /* 64-bit ftello */
+#     define zftello ftell
+#    endif
 
       /* 64-bit fopen */
 #     define zfopen fopen
@@ -641,6 +649,7 @@ typedef struct ztimbuf {
 #     define zfstat _fstati64
 #     define zlstat lstat
 
+#    ifdef WIN32_CUSTOM_SEEK_TELL
       /* 64-bit fseeko */
       /* function in win32.c */
       int zfseeko OF((FILE *, zoff_t, int));
@@ -648,6 +657,13 @@ typedef struct ztimbuf {
       /* 64-bit ftello */
       /* function in win32.c */
       zoff_t zftello OF((FILE *));
+#    else
+      /* 64-bit fseeko */
+#     define zfseeko fseek
+
+      /* 64-bit ftello */
+#     define zftello ftell
+#    endif
 
       /* 64-bit fopen */
 #     define zfopen fopen
@@ -668,6 +684,7 @@ typedef struct ztimbuf {
 #     define zfstat _fstati64
 #     define zlstat lstat
 
+#    ifdef WIN32_CUSTOM_SEEK_TELL
       /* 64-bit fseeko */
       /* function in win32.c */
       int zfseeko OF((FILE *, zoff_t, int));
@@ -675,6 +692,13 @@ typedef struct ztimbuf {
       /* 64-bit ftello */
       /* function in win32.c */
       zoff_t zftello OF((FILE *));
+#    else
+      /* 64-bit fseeko */
+#     define zfseeko fseek
+
+      /* 64-bit ftello */
+#     define zftello ftell
+#    endif
 
       /* 64-bit fopen */
 #     define zfopen fopen
@@ -687,6 +711,7 @@ typedef struct ztimbuf {
 
       /* 64-bit stat functions */
 
+#    ifdef WIN32_CUSTOM_SEEK_TELL
       /* 64-bit fseeko */
       /* function in win32.c */
       int zfseeko OF((FILE *, zoff_t, int));
@@ -694,6 +719,13 @@ typedef struct ztimbuf {
       /* 64-bit ftello */
       /* function in win32.c */
       zoff_t zftello OF((FILE *));
+#    else
+      /* 64-bit fseeko */
+#     define zfseeko fseek
+
+      /* 64-bit ftello */
+#     define zftello ftell
+#    endif
 
       /* 64-bit fopen */
 
