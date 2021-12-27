@@ -160,6 +160,10 @@ ulg after = 0;          /* 0=ignore, else exclude files newer than this time */
 /* Zip file globals */
 char *zipfile;          /* New or existing zip archive (zip file) */
 
+/* I/O retry options */
+int max_retries = 0;     /* Max number of file I/O operation retries */
+time_t retry_delay = 30; /* Seconds before retrying a file I/O operation */
+
 /* zip64 support 08/31/2003 R.Nausedat */
 /* all are across splits - subtract bytes_prev_splits to get offsets for current disk */
 uzoff_t zipbeg;               /* Starting offset of zip structures */
