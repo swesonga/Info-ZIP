@@ -14,6 +14,7 @@
 #define __ZIP_C
 
 #include "zip.h"
+#include <limits.h>
 #include <time.h>       /* for tzset() declaration */
 #if defined(WIN32) || defined(WINDLL)
 #  define WIN32_LEAN_AND_MEAN
@@ -1942,6 +1943,8 @@ int set_filetype(out_path)
 #ifdef UNICODE_TEST
 #define o_sC            0x146
 #endif
+#define o_iomr          0x147
+#define o_iord          0x148
 
 
 /* the below is mainly from the old main command line
@@ -2035,6 +2038,8 @@ struct option_struct far options[] = {
 #endif
     {"m",  "move",        o_NO_VALUE,       o_NOT_NEGATABLE, 'm',  "add files to archive then delete files"},
     {"mm", "",            o_NO_VALUE,       o_NOT_NEGATABLE, o_mm, "not used"},
+    {"",   "io-max-retries", o_REQUIRED_VALUE, o_NOT_NEGATABLE, o_iomr, "max I/O operation retries"},
+    {"",   "io-retry-delay", o_REQUIRED_VALUE, o_NOT_NEGATABLE, o_iord, "delay before retriesin milli-seconds"},
     {"MM", "must-match",  o_NO_VALUE,       o_NOT_NEGATABLE, o_MM, "error if in file not matched/not readable"},
     {"n",  "suffixes",    o_REQUIRED_VALUE, o_NOT_NEGATABLE, 'n',  "suffixes to not compress: .gz:.zip"},
     {"nw", "no-wild",     o_NO_VALUE,       o_NOT_NEGATABLE, o_nw, "no wildcards during add or update"},
@@ -2113,7 +2118,18 @@ struct option_struct far options[] = {
     {NULL, NULL,          o_NO_VALUE,       o_NOT_NEGATABLE, 0,    NULL} /* end has option_ID = 0 */
   };
 
+void sleep_milli_seconds(int milli_seconds)
+{
+  #ifdef WIN32
+    Sleep(milli_seconds);
+  #else
+    struct timespec retry_delay_timespec = {
+        .tv_nsec = milli_seconds * 1000
+    };
 
+    nanosleep(&retry_delay_timespec, NULL);
+  #endif
+}
 
 #ifndef USE_ZIPMAIN
 int main(argc, argv)
@@ -2181,6 +2197,8 @@ char **argv;            /* command line tokens */
 #endif
 
   char **args = NULL;  /* could be wide argv */
+  max_retries = 0;
+  retry_delay = 30;
 
 
 #ifdef THEOS
@@ -2629,6 +2647,8 @@ char **argv;            /* command line tokens */
          negated - option was negated with trailing -
   */
 
+  int requested_retries;
+  int requested_delay;
   while ((option = get_option(&args, &argcnt, &argnum,
                               &optchar, &value, &negated,
                               &fna, &optnum, 0)))
@@ -2838,6 +2858,20 @@ char **argv;            /* command line tokens */
             filter_match_case = 0;
           break;
 #endif
+        case o_iomr:  /* Set max I/O retries */
+            requested_retries = atoi(value);
+            if (requested_retries > 0 && requested_retries < INT_MAX)
+            {
+              max_retries = requested_retries;
+            }
+          break;
+        case o_iord:  /* Set max I/O retry delay */
+            requested_delay = atoi(value);
+            if (requested_delay > 0 && requested_delay < INT_MAX)
+            {
+              retry_delay = requested_delay;
+            }
+          break;
 #ifdef RISCOS
         case 'I':   /* Don't scan through Image files */
           scanimage = 0;
@@ -4763,6 +4797,32 @@ char **argv;            /* command line tokens */
     } else {
       x = (have_out || (zfiles == NULL && zipbeg == 0)) ? zfopen(out_path, FOPW) :
                                                           zfopen(out_path, FOPM);
+
+      if (x == NULL && max_retries > 0)
+      {
+        int retries = 1;
+        size_t pid = getpid();
+
+        do
+        {
+          fprintf(mesg, "zip pid %u: ERROR %u: %s\n", pid, errno, strerror(errno));
+
+          int condition = (have_out || (zfiles == NULL && zipbeg == 0));
+
+          fprintf(mesg, "zip pid %u: RETRY #%u of %u of fopen(%s, \"%s\")\n",
+                        pid, retries, max_retries, out_path, condition ? FOPW : FOPM);
+          fprintf(mesg, "zip pid %u: sleeping for %ju seconds\n", pid, retry_delay);
+          fflush(mesg);
+
+          sleep_milli_seconds(((int)retry_delay) * 1000);
+          x = condition ? zfopen(out_path, FOPW) : zfopen(out_path, FOPM);
+
+          if (x != NULL || retries++ == max_retries)
+            break;
+        }
+        while (x == NULL);
+      }
+
       /* Note: FOPW and FOPM expand to several parameters for VMS */
       if (x == NULL) {
         ZIPERR(ZE_CREAT, out_path);

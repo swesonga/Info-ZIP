@@ -545,6 +545,9 @@ extern int zp_tz_is_valid;      /* signals "timezone info is available" */
 extern int zipstate;            /* flag "zipfile has been stat()'ed */
 #endif
 
+extern int max_retries;
+extern time_t retry_delay;
+
 /* Diagnostic functions */
 #ifdef DEBUG
 # ifdef MSDOS
