@@ -14,6 +14,7 @@
 #define __ZIP_C
 
 #include "zip.h"
+#include <limits.h>
 #include <time.h>       /* for tzset() declaration */
 #if defined(WIN32) || defined(WINDLL)
 #  define WIN32_LEAN_AND_MEAN
@@ -2646,6 +2647,8 @@ char **argv;            /* command line tokens */
          negated - option was negated with trailing -
   */
 
+  int requested_retries;
+  int requested_delay;
   while ((option = get_option(&args, &argcnt, &argnum,
                               &optchar, &value, &negated,
                               &fna, &optnum, 0)))
@@ -2856,14 +2859,14 @@ char **argv;            /* command line tokens */
           break;
 #endif
         case o_iomr:  /* Set max I/O retries */
-            int requested_retries = atoi(value);
+            requested_retries = atoi(value);
             if (requested_retries > 0 && requested_retries < INT_MAX)
             {
               max_retries = requested_retries;
             }
           break;
         case o_iord:  /* Set max I/O retry delay */
-            int requested_delay = atoi(value);
+            requested_delay = atoi(value);
             if (requested_delay > 0 && requested_delay < INT_MAX)
             {
               retry_delay = requested_delay;
