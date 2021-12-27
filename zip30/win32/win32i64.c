@@ -35,7 +35,7 @@
  * 9/25/04 EG
  */
 
-#if defined(LARGE_FILE_SUPPORT) && !defined(__CYGWIN__)
+#if defined(LARGE_FILE_SUPPORT) && defined(WIN32_CUSTOM_SEEK_TELL) && !defined(__CYGWIN__)
 
 /* 64-bit buffered ftello
  *
