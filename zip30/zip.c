@@ -3378,6 +3378,13 @@ char **argv;            /* command line tokens */
                   ZIPERR(r, zipfile);
                 }
                 */
+
+#if defined(WIN32) && defined(TRANSLATE_POSIX_TO_WINDOWS_PATHS)
+                char* fixed_zipfile = cygwin_posix_path_to_windows_path(zipfile, show_what_doing);
+                free(zipfile);
+                zipfile = fixed_zipfile;
+#endif
+
                 free(value);
               }
               if (show_what_doing) {

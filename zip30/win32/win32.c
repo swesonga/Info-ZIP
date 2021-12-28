@@ -1429,3 +1429,84 @@ char *local_to_oem_string(oem_string, local_string)
 #endif
 */
 
+#if defined(TRANSLATE_POSIX_TO_WINDOWS_PATHS)
+char *cygwin_posix_path_to_windows_path(s, show_what_doing)
+  char *s;
+  int show_what_doing;
+{
+  if (s == NULL)
+    return NULL;
+
+  if (show_what_doing) {
+    fprintf(mesg, "sd: original zipfile name '%s'\n", zipfile);
+    fflush(mesg);
+  }
+
+  char* prefix = "/cygdrive";
+  size_t prefix_len = strlen(prefix);
+  size_t input_len = strlen(s);
+
+  int starts_with_prefix = 1;
+  if (input_len > prefix_len)
+  {
+    for (int i=0; i < prefix_len; i++)
+    {
+      if (prefix[i] != s[i])
+      {
+        starts_with_prefix = 0;
+        break;
+      }
+    }
+
+    if (s[prefix_len] != '/')
+    {
+        starts_with_prefix = 0;
+    }
+  }
+  else
+  {
+    starts_with_prefix = 0;
+  }
+
+  size_t windows_path_len;
+  if (starts_with_prefix)
+  {
+    windows_path_len = input_len + 1 - prefix_len;
+  }
+  else
+  {
+    windows_path_len = input_len + 1;
+  }
+
+  char *windows_path;
+  if ((windows_path = malloc(windows_path_len)) == NULL) {
+    ZIPERR(ZE_MEM, "Error allocating memory for cygwin_posix_path_to_windows_path result");
+  }
+
+  if (starts_with_prefix && windows_path_len > 2)
+  {
+    // Skip the trailing slash of /cygdrive/ and get the drive letter
+    windows_path[0] = s[prefix_len + 1];
+    windows_path[1] = ':';
+
+    int i = 2;
+    for (; i < windows_path_len; i++)
+    {
+      windows_path[i] = s[prefix_len + i];
+    }
+
+    windows_path[windows_path_len] = '\0';
+
+    if (show_what_doing) {
+      fprintf(mesg, "sd: fixed zipfile name '%s'\n", windows_path);
+      fflush(mesg);
+    }
+  }
+  else
+  {
+    strcpy(windows_path, s);
+  }
+
+  return windows_path;
+}
+#endif
