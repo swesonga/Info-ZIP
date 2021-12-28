@@ -73,7 +73,7 @@ struct
 /*  1 */ { "",        "",                             ZE_S_UNUSED },
 /*  2 */ { "EOF",     "Unexpected end of zip file",   ZE_S_SEVERE },
 /*  3 */ { "FORM",    "Zip file structure invalid",   ZE_S_ERROR },
-/*  4 */ { "MEM",     "Out of memory",                ZE_S_SEVERE },
+/*  4 */ { "MEM",     "Out of memory",                ZE_S_SEVERE | ZE_S_PERR },
 /*  5 */ { "LOGIC",   "Internal logic error",         ZE_S_SEVERE },
 /*  6 */ { "BIG",     "Entry too big to split, read, or write",
                                                       ZE_S_ERROR },

@@ -19,6 +19,7 @@
 #if defined(WIN32) || defined(WINDLL)
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
+#  include <psapi.h>
 #endif
 #ifdef WINDLL
 #  include <setjmp.h>
@@ -174,6 +175,43 @@ struct filelist_struct {
 long filearg_count = 0;
 struct filelist_struct *filelist = NULL;  /* start of list */
 struct filelist_struct *lastfile = NULL;  /* last file in list */
+
+void print_memory_stats()
+{
+#ifdef WIN32
+  HANDLE hProcess;
+  PROCESS_MEMORY_COUNTERS pmc;
+
+  int pid = getpid();
+
+  fprintf(mesg, "zip pid %u: information about the memory usage of the process...\n", pid);
+  hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+                         FALSE, pid);
+  if (hProcess == NULL)
+  {
+    fprintf(mesg, "zip pid %u: cannot display memory usage information. OpenProcess failed.", pid);
+    return;
+  }
+
+  if (!GetProcessMemoryInfo( hProcess, &pmc, sizeof(pmc)))
+  {
+    fprintf(mesg, "zip pid %u: cannot display memory usage information. GetProcessMemoryInfo failed with error %u", pid, GetLastError());
+    return;
+  }
+
+  fprintf(mesg, "\tzip pid %u PageFaultCount:             0x%08lX\n", pid, pmc.PageFaultCount);
+  fprintf(mesg, "\tzip pid %u PeakWorkingSetSize:         0x%08llX\n", pid, pmc.PeakWorkingSetSize);
+  fprintf(mesg, "\tzip pid %u WorkingSetSize:             0x%08llX\n", pid, pmc.WorkingSetSize);
+  fprintf(mesg, "\tzip pid %u QuotaPeakPagedPoolUsage:    0x%08llX\n", pid, pmc.QuotaPeakPagedPoolUsage);
+  fprintf(mesg, "\tzip pid %u QuotaPagedPoolUsage:        0x%08llX\n", pid, pmc.QuotaPagedPoolUsage);
+  fprintf(mesg, "\tzip pid %u QuotaPeakNonPagedPoolUsage: 0x%08llX\n", pid, pmc.QuotaPeakNonPagedPoolUsage);
+  fprintf(mesg, "\tzip pid %u QuotaNonPagedPoolUsage:     0x%08llX\n", pid, pmc.QuotaNonPagedPoolUsage);
+  fprintf(mesg, "\tzip pid %u PagefileUsage:              0x%08llX\n", pid, pmc.PagefileUsage); 
+  fprintf(mesg, "\tzip pid %u PeakPagefileUsage:          0x%08llX\n\n", pid, pmc.PeakPagefileUsage);
+
+  CloseHandle( hProcess );
+#endif
+}
 
 local void freeup()
 /* Free all allocations in the 'found' list, the 'zfiles' list and
@@ -342,6 +380,9 @@ ZCONST char *h;         /* message about how it happened */
      /* avoid recursive ziperr() printouts (his should never happen) */
      EXIT(ZE_LOGIC);  /* ziperr recursion is an internal logic error! */
 #endif /* !WINDLL */
+
+  /* Display diagnostic information about the process */
+  print_memory_stats();
 
   if (mesg_line_started) {
     fprintf(mesg, "\n");
