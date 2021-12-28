@@ -15,9 +15,16 @@ LOC = $(LOCAL_ZIP)
 # routines in Zip:
 ASMOBJS = gvmat64.obj
 
+!IFDEF DEBUG
+# https://docs.microsoft.com/en-us/cpp/build/reference/o-options-optimize-code
+CFLAGSOPTIMIZATION = -Od
+!ELSE
+CFLAGSOPTIMIZATION = -O2
+!ENDIF
+
 # ------------- 32-bit Microsoft Visual C++ -------------
 CC=cl -nologo
-CFLAGS=-W3 -O2 -DNO_ASM_CRC -DASMV -DWIN32 $(LOC)
+CFLAGS=-W3 $(CFLAGSOPTIMIZATION) -DNO_ASM_CRC -DASMV -DWIN32 $(LOC)
 UTILFLAGS=$(CFLAGS) -DUTIL -Fo$@
 
 # Remove "-coff" from ASFLAGS if you do not have MASM 6.11.
@@ -31,6 +38,14 @@ ASFLAGS= /c /Zi /DINFOZIP
 
 LD=link -nologo
 LDFLAGS=advapi32.lib user32.lib
+
+!IFDEF DEBUG
+# https://docs.microsoft.com/en-us/cpp/build/reference/debug-generate-debug-info
+LDFLAGS=$(LDFLAGS) /DEBUG:FULL /DEBUGTYPE:CV
+
+# https://docs.microsoft.com/en-us/cpp/build/reference/z7-zi-zi-debug-information-format
+CFLAGS=$(CFLAGS) /Zi
+!ENDIF
 
 # variables
 OBJZ = zip.obj crypt.obj ttyio.obj zipfile.obj zipup.obj fileio.obj util.obj \
