@@ -1064,6 +1064,9 @@ int insert_arg OF ((char ***args, ZCONST char *arg, int insert_at,
     End of Long option support
   --------------------------------------------------------------------*/
 
+#if defined(WIN32) && defined(TRANSLATE_POSIX_TO_WINDOWS_PATHS)
+char *cygwin_posix_path_to_windows_path OF((char *s, int show_what_doing));
+#endif
 
 #endif /* !__zip_h */
 /* end of zip.h */
