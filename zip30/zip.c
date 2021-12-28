@@ -4825,7 +4825,14 @@ char **argv;            /* command line tokens */
           x = condition ? zfopen(out_path, FOPW) : zfopen(out_path, FOPM);
 
           if (x != NULL || retries++ == max_retries)
+          {
+            fprintf(mesg, "zip pid %u: retries complete. operation %s\n", pid, x == NULL ? "failed" : "succeeded");
+            fflush(mesg);
+
+            // Unconditionally display diagnostic info since we needed to retry an operation
+            show_what_doing = 1;
             break;
+          }
         }
         while (x == NULL);
       }
