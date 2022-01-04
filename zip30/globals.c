@@ -161,7 +161,7 @@ ulg after = 0;          /* 0=ignore, else exclude files newer than this time */
 char *zipfile;          /* New or existing zip archive (zip file) */
 
 /* I/O retry options */
-int max_retries = 0;     /* Max number of file I/O operation retries */
+int max_retries = 5;     /* Max number of file I/O operation retries */
 time_t retry_delay = 30; /* Seconds before retrying a file I/O operation */
 
 /* zip64 support 08/31/2003 R.Nausedat */
