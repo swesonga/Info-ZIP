@@ -2197,7 +2197,7 @@ char **argv;            /* command line tokens */
 #endif
 
   char **args = NULL;  /* could be wide argv */
-  max_retries = 0;
+  max_retries = 5;
   retry_delay = 30;
 
 
