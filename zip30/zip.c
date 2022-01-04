@@ -1188,7 +1188,7 @@ local void version_info()
 
   for (i = 0; i < sizeof(versinfolines)/sizeof(char *); i++)
   {
-    printf(versinfolines[i], "Zip", VERSION, REVDATE);
+    printf(versinfolines[i], "retry-zip", VERSION, REVDATE);
     putchar('\n');
   }
 

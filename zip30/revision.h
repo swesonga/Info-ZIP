@@ -21,8 +21,8 @@
 #define Z_PATCHLEVEL 0
 #define Z_BETALEVEL "i BETA"
 
-#define VERSION "3.0-ioERes"
-#define REVDATE "2022-01-04.01"
+#define VERSION "3.0"
+#define REVDATE "2022-01-04.02"
 
 #define DW_MAJORVER    Z_MAJORVER
 #define DW_MINORVER    Z_MINORVER
@@ -58,14 +58,12 @@ ZCONST char *copyright[] = {
 };
 
 ZCONST char * far versinfolines[] = {
-"This is %s %s (%s), by Info-ZIP with changes by Saint Wesonga (2021).",
+"This is %s %s (%s), based on Info-ZIP with changes by S. Wesonga.",
 "This customized version is currently maintained by S. Wesonga.",
-"Please send bug reports to the authors using the web page at",
-"www.info-zip.org; see README for details.",
 "Please report any issues related to this customized tool at",
-"https://github.com/swesonga/Info-ZIP/issues",
+"https://github.com/swesonga/retry-zip/issues",
 "",
-"Latest sources for this custom Info-ZIP tool are at https://github.com/swesonga/Info-ZIP,",
+"Latest sources for retry-zip are at https://github.com/swesonga/retry-zip",
 "as of above date; see http://www.info-zip.org/ for other sites.",
 ""
 };
